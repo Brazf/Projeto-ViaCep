@@ -29,6 +29,7 @@
                             id="cep" 
                             type="text"
                             placeholder="CEP"
+                            class="form-input"
                         >
                         <div class="error-message">Campo Requerido</div>
                     </div>
@@ -39,6 +40,8 @@
                             id="street" 
                             type="text"
                             placeholder="Logradouro"
+                            class="form-input"
+                            disabled
                         >
                     </div>
                     <div class="form-control">
@@ -48,6 +51,7 @@
                             id="number" 
                             type="text"
                             placeholder="Número"
+                            class="form-input"
                         >
                         <div class="error-message">Campo Requerido</div>
                     </div>
@@ -58,29 +62,31 @@
                             id="city" 
                             type="text"
                             placeholder="Cidade"
+                            class="form-input"
+                            disabled
                         >
                     </div>
-                    <div>
-                        <button type="submit">Salvar</button>
-                        <button>Limpar</button>
+                    <div class="btn-container">
+                        <button type="submit" class="btn btn-left ">Salvar</button>
+                        <button class="btn btn-right">Limpar</button>
                     </div>
                 </form>
             </div>
         </section>
-        <section id="list-section">
-            <div>
+        <section id="list-section" class="list-container">
+            <div class="card-list-item">
                 <h3>São Paulo</h3>
-                <p>Rua dos Jardins, 720</p>
-                <p>11200-345</p>
+                <p class="address-line">Rua dos Jardins, 720</p>
+                <p class="address-cep">11200-345</p>
             </div>
-            <div>
+            <div class="card-list-item">
                 <h3>São Paulo</h3>
-                <p>Rua dos Jardins, 720</p>
-                <p>11200-345</p>
+                <p class="address-line">Rua dos Jardins, 720</p>
+                <p class="address-cep">11200-345</p>
             </div>
         </section>
     </main>
 
-    <script src="js/script.js"></script>
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>

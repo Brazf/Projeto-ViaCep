@@ -1,0 +1,1 @@
+Na pasta controller, são colocados os script de evento de ui da página.
