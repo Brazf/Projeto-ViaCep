@@ -1,4 +1,5 @@
 import Address from "../models/address.js";
+import * as addressService from "../services/address-service.js";
 
 // NA FUNÇÃO CONSTRUTURA STATE (ESTADO) VOU GUARDAR AS INFORMAÇÕES MAIS IMPORTANTE DO MEU PROJETO
 function State () {
@@ -34,7 +35,22 @@ function init () {
 
     state.inputNumber.addEventListener('change', handleInputNumberChange);
     state.btnClear.addEventListener('click', handleBtnClearClick);
+    state.btnSave.addEventListener('click', handleBtnSaveClick);
+    state.inputCep.addEventListener('change', handleInputCepChange);
+
 };
+
+async function handleInputCepChange (event) {
+    const cep = event.target.value;
+    const address = await addressService.findByCep(cep);
+
+    console.log(address);
+}
+
+async function handleBtnSaveClick(event){
+    event.preventDefault();
+    console.log(event.target);
+}
 
 function handleInputNumberChange(event){
     if(event.target.value == ""){

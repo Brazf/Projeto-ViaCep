@@ -1,8 +1,12 @@
-// https://rollbar.com/guides/javascript/how-to-throw-exceptions-in-javascript/
+import RequestException from "../services/exceptions/resquest-exception.js";
 
-export default function RequestException(message) {
-    const error = new Error(message);
-    return error;
-  }
-  
-  RequestException.prototype = Object.create(Error.prototype);
+export async function getJson(url) {
+    try {
+        const response = await fetch(url);
+        const jsonBody = await response.json();
+        return jsonBody;   
+    } 
+    catch (error) {
+        throw new RequestException("Erro ao realizar requisição.");
+    }
+}
