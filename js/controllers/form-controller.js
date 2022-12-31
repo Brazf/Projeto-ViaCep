@@ -1,5 +1,6 @@
 import Address from "../models/address.js";
 import * as addressService from "../services/address-service.js";
+import * as listController from "../controllers/list-controller.js";
 
 // NA FUNÇÃO CONSTRUTURA STATE (ESTADO) VOU GUARDAR AS INFORMAÇÕES MAIS IMPORTANTE DO MEU PROJETO
 function State () {
@@ -34,22 +35,56 @@ function init () {
     state.errorNumber = document.querySelector('[data-error="number"]');
 
     state.inputNumber.addEventListener('change', handleInputNumberChange);
+    state.inputNumber.addEventListener('keyup', handleInputNumberKeyup);
     state.btnClear.addEventListener('click', handleBtnClearClick);
     state.btnSave.addEventListener('click', handleBtnSaveClick);
     state.inputCep.addEventListener('change', handleInputCepChange);
 
 };
 
-async function handleInputCepChange (event) {
-    const cep = event.target.value;
-    const address = await addressService.findByCep(cep);
-
-    console.log(address);
+function handleInputNumberKeyup(event) {
+    state.address.number = event.target.value;
 }
 
-async function handleBtnSaveClick(event){
+async function handleInputCepChange (event) {
+    const cep = event.target.value;
+
+    try {
+        const address = await addressService.findByCep(cep);
+
+        state.inputCity.value = address.city;
+        state.inputStreet.value = address.street;
+        state.address = address;
+    
+        setFormError("cep", "");
+        state.inputNumber.focus();   
+    } 
+    catch (error) {
+        state.inputStreet.value = "";
+        state.inputCity.value = "";
+        state.inputNumber.value = "";
+        setFormError("cep", "Informe um CEP válido");
+        state.inputCep.focus();
+    }
+}
+
+function handleBtnSaveClick(event){
     event.preventDefault();
-    console.log(event.target);
+
+    const errors = addressService.getErrors(state.address);
+
+    const keys = Object.keys(errors);
+
+    if (keys.length > 0){
+        keys.forEach( key => {
+            setFormError(key, errors[key]);
+        })
+    }
+    else {
+        listController.addCard(state.address);
+        clearForm();
+    }
+
 }
 
 function handleInputNumberChange(event){
@@ -74,6 +109,8 @@ function clearForm(){
 
     setFormError("cep", "");
     setFormError("number", "");
+
+    state.address = new Address();
 
     state.inputCep.focus();
 }
